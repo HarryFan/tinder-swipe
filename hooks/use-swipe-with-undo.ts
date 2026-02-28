@@ -1,5 +1,5 @@
-import React, { useState, useRef, useCallback, useEffect } from 'react';
-import * as MediaLibrary from 'from 'expo-media-library';
+import * as MediaLibrary from 'expo-media-library';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Alert } from 'react-native';
 
 export interface MediaCard {
@@ -65,7 +65,7 @@ export const useSwipeWithUndo = () => {
     const card = cards[index];
     if (card) {
       setPendingDeleteIds((prev) => [...prev, card.id]);
-      setHistory((prev) => [...prev, { id: card.id, direction: 'left' }].slice(-20)); // Limit history to 20
+      setHistory((prev) => [...prev, { id: card.id, direction: 'left' as const }].slice(-20)); // Limit history to 20
     }
   };
 
@@ -73,7 +73,7 @@ export const useSwipeWithUndo = () => {
     const card = cards[index];
     if (card) {
       setKeptIds((prev) => [...prev, card.id]);
-      setHistory((prev) => [...prev, { id: card.id, direction: 'right' }].slice(-20));
+      setHistory((prev) => [...prev, { id: card.id, direction: 'right' as const }].slice(-20));
     }
   };
 

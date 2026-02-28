@@ -7,7 +7,7 @@ import { TinderSwipe } from '~/components/tinder-swipe';
 export default function Home() {
   return (
     <SafeAreaView style={styles.container} className="bg-slate-50">
-      <Stack.Screen options={{ title: 'Tinder Swipe' }} />
+      <Stack.Screen options={{ title: 'Swipe Clean' }} />
       <View style={styles.header}>
         <Text style={styles.headerTitle} className="text-slate-800">Swipe Clean</Text>
       </View>

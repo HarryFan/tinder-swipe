@@ -95,7 +95,7 @@ export const TinderSwipe = () => {
           onPress={onUndo}
           disabled={!canUndo}
         >
-          <RotateCcw color={canUndo ? "#FFB800" : "#A1A1AA"} size={32} />
+          <RotateCcw color={canUndo ? "#f59e0b" : "#94a3b8"} size={32} />
         </TouchableOpacity>
 
         {/* Floating Badge above Trash if pending */}
@@ -110,7 +110,7 @@ export const TinderSwipe = () => {
                 onPress={executeBatchDelete}
                 disabled={pendingCount === 0}
             >
-                <Trash2 color={pendingCount > 0 ? "white" : "#fca5a5"} size={32} />
+                <Trash2 color={pendingCount > 0 ? "white" : "#60a5fa"} size={32} />
             </TouchableOpacity>
         </View>
 
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
-    backgroundColor: '#111827', // Tailwind gray-900 for dark premium feel
+    backgroundColor: '#f8fafc', // slate-50
   },
   header: {
     paddingTop: 50,
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   progressText: {
-    color: '#9ca3af', // gray-400
+    color: '#64748b', // slate-500
     fontSize: 14,
     fontWeight: 'bold',
   },
@@ -139,10 +139,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#111827',
+    backgroundColor: '#f8fafc', // slate-50
   },
   loadingText: {
-    color: '#fff',
+    color: '#334155', // slate-700
     marginTop: 10,
     fontSize: 16,
   },
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   emptyText: {
-    color: 'white',
+    color: '#1e293b', // slate-800
     fontSize: 24,
     fontWeight: 'bold',
   },
@@ -176,27 +176,26 @@ const styles = StyleSheet.create({
     borderRadius: 32,
     alignItems: 'center',
     justifyContent: 'center',
-    boxShadow: '0px 4px 5px rgba(0, 0, 0, 0.3)',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
     elevation: 5,
   },
   buttonActive: {
     backgroundColor: 'white',
   },
   buttonDisabled: {
-    backgroundColor: '#374151', // gray-700
-    boxShadow: 'none',
-    elevation: 0,
+    backgroundColor: '#e2e8f0', // slate-200
   },
   deleteButton: {
-    backgroundColor: '#ef4444', // red-500
+    backgroundColor: '#3b82f6', // blue-500
     width: 72,
     height: 72,
     borderRadius: 36,
   },
   buttonDisabledRed: {
-    backgroundColor: '#7f1d1d', // red-900
-    boxShadow: 'none',
-    elevation: 0,
+    backgroundColor: '#bfdbfe', // blue-200
   },
   trashContainer: {
     position: 'relative',
@@ -205,7 +204,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -10,
     right: -10,
-    backgroundColor: '#f59e0b', // amber-500
+    backgroundColor: '#f43f5e', // rose-500
     width: 28,
     height: 28,
     borderRadius: 14,
@@ -213,7 +212,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     zIndex: 10,
     borderWidth: 2,
-    borderColor: '#111827',
+    borderColor: '#f8fafc', // slate-50
   },
   badgeText: {
     color: 'white',

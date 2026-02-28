@@ -156,74 +156,72 @@ const styles = StyleSheet.create({
   cardContainer: {
     position: 'absolute',
     width: width * 0.9,
-    height: height * 0.7,
-    backgroundColor: '#000',
+    height: height * 0.65,
+    backgroundColor: '#ffffff',
     borderRadius: 24,
-    boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.3)',
-    elevation: 10,
-    borderWidth: 2,
-    borderColor: 'rgba(255,255,255,0.1)',
-    overflow: 'hidden', // Ensure media respects border radius
-    justifyContent: 'center',
-    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 20,
+    elevation: 5,
+    overflow: 'hidden',
   },
   media: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
     width: '100%',
     height: '100%',
-    borderRadius: 24, // Inner border radius
+    borderRadius: 24,
   },
   actionIndicator: {
     position: 'absolute',
-    top: 50,
+    top: 40,
     paddingHorizontal: 20,
     paddingVertical: 10,
-    borderWidth: 4,
-    borderRadius: 10,
+    borderRadius: 9999, // Pill shape
+    overflow: 'hidden',
   },
   likeIndicator: {
-    left: 40,
-    borderColor: '#4ade80', // Tailwind green-400
-    transform: [{ rotate: '-15deg' }],
+    left: 20,
+    backgroundColor: 'rgba(45, 212, 191, 0.9)', // Teal-400
   },
   nopeIndicator: {
-    right: 40,
-    borderColor: '#ef4444', // Tailwind red-500
-    transform: [{ rotate: '15deg' }],
+    right: 20,
+    backgroundColor: 'rgba(244, 63, 94, 0.9)', // Rose-500
   },
   actionTextLike: {
-    color: '#4ade80',
-    fontSize: 40,
+    color: '#ffffff',
+    fontSize: 24,
     fontWeight: '800',
-    textTransform: 'uppercase',
+    letterSpacing: 2,
   },
   actionTextNope: {
-    color: '#ef4444',
-    fontSize: 40,
+    color: '#ffffff',
+    fontSize: 24,
     fontWeight: '800',
-    textTransform: 'uppercase',
+    letterSpacing: 2,
   },
   overlayTextContainer: {
     position: 'absolute',
-    bottom: 20,
-    left: 20,
-    right: 20,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    padding: 10,
-    borderRadius: 12,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: 20,
+    paddingTop: 40,
+    paddingBottom: 24,
+    backgroundColor: 'rgba(255, 255, 255, 0.8)', // Semi-transparent white
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
   },
   filenameText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: '#1e293b', // slate-800
     fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 4,
   },
   dateText: {
-    color: '#d1d5db', // Tailwind gray-300
+    color: '#64748b', // slate-500
     fontSize: 14,
-    marginTop: 4,
-  }
+  },
 });

@@ -1,8 +1,8 @@
 ## 1. Setup & Environment
 
-- [ ] 1.1 Install required Expo and community packages (`expo-media-library`, `expo-av`, `react-native-reanimated`, etc.) if not already present.
-- [ ] 1.2 Verify `App.tsx` or main entry point structure supports requested navigation or basic screen flow.
-- [ ] 1.3 Add iOS and Android permission configurations for media library access in `app.json`.
+- [x] 1.1 Install required Expo and community packages (`expo-media-library`, `expo-av`, `react-native-reanimated`, etc.) if not already present.
+- [x] 1.2 Verify `App.tsx` or main entry point structure supports requested navigation or basic screen flow.
+- [x] 1.3 Add iOS and Android permission configurations for media library access in `app.json`.
 
 ## 2. Media Access & State Management
 

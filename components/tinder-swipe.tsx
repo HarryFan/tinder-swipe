@@ -176,10 +176,7 @@ const styles = StyleSheet.create({
     borderRadius: 32,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 5,
+    boxShadow: '0px 4px 5px rgba(0, 0, 0, 0.3)',
     elevation: 5,
   },
   buttonActive: {
@@ -187,7 +184,7 @@ const styles = StyleSheet.create({
   },
   buttonDisabled: {
     backgroundColor: '#374151', // gray-700
-    shadowOpacity: 0,
+    boxShadow: 'none',
     elevation: 0,
   },
   deleteButton: {
@@ -198,7 +195,7 @@ const styles = StyleSheet.create({
   },
   buttonDisabledRed: {
     backgroundColor: '#7f1d1d', // red-900
-    shadowOpacity: 0,
+    boxShadow: 'none',
     elevation: 0,
   },
   trashContainer: {

@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity } from 'react-native';
-import { PanGestureHandler, GestureHandlerStateChangeEvent, State } from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -9,7 +8,8 @@ import Animated, {
   runOnJS,
   interpolate,
 } from 'react-native-reanimated';
-import { Video, ResizeMode } from 'expo-av';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { useVideoPlayer, VideoView } from 'expo-video';
 import { MediaCard } from '~/hooks/use-swipe-with-undo';
 
 const { width, height } = Dimensions.get('window');
@@ -25,14 +25,29 @@ interface TinderCardProps {
 export const TinderCard = ({ item, isFirst, swipeRight, swipeLeft, index }: TinderCardProps) => {
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
+  const startX = useSharedValue(0);
+  const startY = useSharedValue(0);
 
-  const onGestureEvent = Animated.event(
-    [{ nativeEvent: { translationX: translateX, translationY: translateY } }],
-    { useNativeDriver: true }
-  );
+  const player = useVideoPlayer(item.uri, player => {
+    player.loop = true;
+    player.muted = true;
+    if (isFirst) {
+        player.play();
+    } else {
+        player.pause();
+    }
+  });
 
-  const onHandlerStateChange = (event: GestureHandlerStateChangeEvent) => {
-    if (event.nativeEvent.state === State.END) {
+  const pan = Gesture.Pan()
+    .onStart(() => {
+      startX.value = translateX.value;
+      startY.value = translateY.value;
+    })
+    .onUpdate((event) => {
+      translateX.value = startX.value + event.translationX;
+      translateY.value = startY.value + event.translationY;
+    })
+    .onEnd((event) => {
       if (translateX.value > 100) {
         // Swipe Right (Keep)
         translateX.value = withTiming(width * 1.5, { duration: 250 }, () => {
@@ -48,8 +63,7 @@ export const TinderCard = ({ item, isFirst, swipeRight, swipeLeft, index }: Tind
         translateX.value = withSpring(0);
         translateY.value = withSpring(0);
       }
-    }
-  };
+    });
 
   const cardStyle = useAnimatedStyle(() => {
     const rotate = interpolate(translateX.value, [-width / 2, 0, width / 2], [-10, 0, 10], 'clamp');
@@ -82,11 +96,11 @@ export const TinderCard = ({ item, isFirst, swipeRight, swipeLeft, index }: Tind
         <View style={[styles.cardContainer, { zIndex: -index, elevation: 0 }]}>
             {/* Just a static render for cards underneath to improve performance and avoid complex gesture handling. */}
             {item.type === 'video' ? (
-                <Video
-                  source={{ uri: item.uri }}
-                  style={[StyleSheet.absoluteFillObject, styles.media]}
-                  resizeMode={ResizeMode.COVER}
-                  shouldPlay={false} // Don't play videos underneath
+                <VideoView
+                  player={player}
+                  style={styles.media}
+                  contentFit="cover"
+                  nativeControls={false}
                 />
             ) : (
                 <Image
@@ -103,21 +117,19 @@ export const TinderCard = ({ item, isFirst, swipeRight, swipeLeft, index }: Tind
   }
 
   return (
-    <PanGestureHandler onGestureEvent={onGestureEvent} onHandlerStateChange={onHandlerStateChange}>
+    <GestureDetector gesture={pan}>
       <Animated.View style={[styles.cardContainer, cardStyle]}>
         {item.type === 'video' ? (
-          <Video
-            source={{ uri: item.uri }}
-            style={[StyleSheet.absoluteFillObject, styles.media]}
-            resizeMode={ResizeMode.COVER}
-            shouldPlay={isFirst} // Only play if it's the top card
-            isMuted={true}
-            isLooping
+          <VideoView
+            player={player}
+            style={styles.media}
+            contentFit="cover"
+            nativeControls={false}
           />
         ) : (
           <Image
             source={{ uri: item.uri }}
-            style={[StyleSheet.absoluteFillObject, styles.media]}
+            style={styles.media}
           />
         )}
 
@@ -136,7 +148,7 @@ export const TinderCard = ({ item, isFirst, swipeRight, swipeLeft, index }: Tind
         </View>
 
       </Animated.View>
-    </PanGestureHandler>
+    </GestureDetector>
   );
 };
 
@@ -147,10 +159,7 @@ const styles = StyleSheet.create({
     height: height * 0.7,
     backgroundColor: '#000',
     borderRadius: 24,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.3,
-    shadowRadius: 20,
+    boxShadow: '0px 10px 20px rgba(0, 0, 0, 0.3)',
     elevation: 10,
     borderWidth: 2,
     borderColor: 'rgba(255,255,255,0.1)',
@@ -159,6 +168,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   media: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     width: '100%',
     height: '100%',
     borderRadius: 24, // Inner border radius

@@ -1,150 +1,144 @@
-# Tinder Swipe App
+# Tinder Swipe App (照片清理助手)
 
-A React Native/Expo application that demonstrates a Tinder-like swipe interface with smooth animations and gesture handling.
+一個基於 React Native 和 Expo 開發的應用程式，藉由類似 Tinder 的滑動介面，讓你能流暢且高效率地清理手機相簿中的媒體。
 
-## Features
+## 功能特色
 
-- **Swipe Gestures**: Swipe left or right on cards with smooth animations
-- **Gesture Handling**: Built with `react-native-gesture-handler` for responsive touch interactions
-- **Smooth Animations**: Uses `react-native-reanimated` for fluid card movements and rotations
-- **Modern UI**: Styled with NativeWind (Tailwind CSS for React Native)
-- **Cross-Platform**: Runs on iOS, Android, and Web using Expo
+- **深入相簿存取**：無縫整合作業系統權限，幫助您讀取與管理裝置內最新的相片與影片。
+- **滑動手勢操作**：向左滑（刪除）或向右滑（保留），配備流暢的動畫與靈敏的觸控回饋。
+- **影片支援**：透過 `expo-video` 打造原生影片播放體驗，並針對最上層的活躍卡片提供靜音自動播放功能。
+- **安全的批次刪除**：刪除動作會先加入待處理的佇列，最後再透過作業系統原生的確認提示進行實體刪除，避免誤刪。同時支援強大的「復原 (Undo)」操作！
+- **流暢動畫特效**：使用 `react-native-reanimated` 實現絲滑的卡片移動與旋轉物理效果。
+- **現代化介面**：使用 NativeWind 進行樣式設計（適用於 React Native 的 Tailwind CSS）。
+- **跨平台支援**：完美運行於 iOS 與 Android 裝置。
 
-## Tech Stack
+## 技術堆疊
 
-- **React Native** with Expo Router
-- **TypeScript** for type safety
-- **NativeWind** for styling (Tailwind CSS)
-- **React Native Gesture Handler** for touch gestures
-- **React Native Reanimated** for animations
-- **Expo** for cross-platform development
+- **React Native** (結合 Expo Router 進行導航)
+- **TypeScript** (確保嚴謹的型別安全)
+- **NativeWind** (基於 Tailwind CSS 的樣式定義)
+- **React Native Gesture Handler** (觸控手勢處理)
+- **React Native Reanimated** (60FPS 流暢動畫引擎)
+- **Expo Video** (高效能原生影片自動播放)
+- **Expo Media Library** (裝置相簿存取與刪除 API)
 
-## Getting Started
+## 開始使用
 
-### Prerequisites
+### 環境要求
 
-- Node.js (v18 or later)
+- Node.js (v18 或更新版本)
 - Expo CLI (`npm install -g @expo/cli`)
-- iOS Simulator (for iOS development) or Android Studio (for Android development)
+- iOS 模擬器 (適用於 iOS 開發) 或 Android Studio (適用於 Android 開發)
 
-### Installation
+### 安裝步驟
 
-1. Clone the repository:
+1. 複製此儲存庫：
 
 ```bash
 git clone <repository-url>
 cd tinder-swipe
 ```
 
-2. Install dependencies:
+2. 安裝依賴套件：
 
 ```bash
 npm install
-# or
+# 或使用
 bun install
 ```
 
-3. Start the development server:
+3. 啟動開發伺服器：
 
 ```bash
 npm start
-# or
+# 或使用
 bun start
 ```
 
-4. Run on your preferred platform:
+4. 在您偏好的平台上運行：
 
 ```bash
 # iOS
 npm run ios
-# or
+# 或使用
 bun run ios
 
 # Android
 npm run android
-# or
+# 或使用
 bun run android
 
-# Web
+# Web (受限於照片存取能力)
 npm run web
-# or
+# 或使用
 bun run web
 ```
 
-## Project Structure
+## 專案結構
 
 ```
-├── app/                    # Expo Router pages
-│   ├── _layout.tsx         # Root layout with gesture handler
-│   ├── index.tsx          # Main home screen
-│   └── +html.tsx          # HTML template for web
-├── components/            # Reusable components
-│   ├── tinder-card.tsx    # Individual swipeable card
-│   ├── tinder-swipe.tsx   # Card stack management
-│   ├── container.tsx      # Safe area container
-│   └── button.tsx         # Custom button component
-├── assets/                # Images and icons
-└── global.css             # Global styles
+├── app/                    # Expo Router 頁面
+│   ├── _layout.tsx         # 包含手勢處理邏輯的根佈局
+│   ├── index.tsx           # 主畫面
+│   └── +html.tsx           # 網頁版 HTML 靜態模板
+├── components/             # 可重複使用的 UI 元件
+│   ├── tinder-card.tsx     # 單張包含手勢的滑動卡片
+│   ├── tinder-swipe.tsx    # 卡片堆疊與 Swipe 邏輯管理
+│   ├── container.tsx       # Safe Area 容器
+│   └── button.tsx          # 自訂按鈕元件
+├── hooks/                  # 自訂 React Hooks
+│   └── use-swipe-with-undo.ts # 管理媒體狀態、相簿存取、復原機制與批次刪除
+├── openspec/               # 產品規格與變更檔案 (OpenSpec)
+├── assets/                 # 圖片與圖示資源
+└── global.css              # 全域樣式設定 (包含 Tailwind 組態)
 ```
 
-## How It Works
+## 運作原理
 
-1. **Card Stack**: The app displays a stack of cards with sample data
-2. **Gesture Detection**: Pan gestures are detected on each card
-3. **Animation**: Cards animate smoothly when swiped, including rotation effects
-4. **Threshold Logic**: Cards must be swiped beyond 50% of screen width to trigger actions
-5. **Card Removal**: Swiped cards are removed from the stack after animation completes
+1. **卡片堆疊**：應用程式載入您的最新媒體，並以重疊卡片的方式顯示。
+2. **手勢偵測**：透過 `GestureDetector` 偵測每張卡片上的平移 (Pan) 滑動手勢。
+3. **動態渲染**：卡片在滑動時會根據滑動距離與角度同步位移，並產生自然的旋轉效果。
+4. **判斷邏輯**：當卡片滑退超過特定的距離門檻時，放手後將觸發保留（往右）或刪除（往左）判定。
+5. **卡片狀態拋轉**：卡片滑出螢幕後，會記錄進陣列歷史中支援隨時撤銷操作。
 
-## Key Components
+## 核心元件
 
 ### TinderCard
 
-- Handles individual card gestures and animations
-- Implements swipe thresholds and spring animations
-- Manages card rotation based on swipe direction
+- 負責處理單一卡片內部的手勢捕捉與動畫回饋。
+- 內建滑動觸發門檻、多階段視差文字不透明度與彈簧 (Spring) 動畫回彈。
+- 根據滑動範圍即時判斷卡片屬性變化。
 
 ### TinderSwipe
 
-- Manages the card stack state
-- Handles swipe callbacks (left/right)
-- Renders multiple cards in a stack
+- 以原生方式管理卡片堆疊的總體狀態，追蹤使用者的操作步驟。
+- 集中呼叫自定義 Hook，安全地透過作業系統原生 UI 介面處理批次清除。
+- 藉由陣列索引控管以達到不斷無縫輪播。
 
-## Development
+## 開發指南
 
-### Available Scripts
+### 可用指令
 
-- `npm start` - Start Expo development server
-- `npm run ios` - Run on iOS simulator
-- `npm run android` - Run on Android emulator
-- `npm run web` - Run in web browser
-- `npm run lint` - Run ESLint and Prettier checks
-- `npm run format` - Format code with ESLint and Prettier
+- `npm start` - 啟動 Expo 開發伺服器
+- `npm run ios` - 在 iOS 模擬器上運行
+- `npm run android` - 在 Android 模擬器上運行
+- `npm run web` - 在網頁瀏覽器上運行 (不支援原生相簿 API)
+- `npm run lint` - 執行 ESLint 與 Prettier 自動檢查
+- `npm run format` - 透過 ESLint 與 Prettier 排版格式化程式碼
 
-### Code Quality
+### 程式碼品質管理
 
-The project uses:
+此專案使用：
 
-- **ESLint** for code linting
-- **Prettier** for code formatting
-- **TypeScript** for type checking
+- **ESLint** 針對程式碼風格進行靜態分析。
+- **Prettier** 確保撰寫格式的一致性。
+- **TypeScript** 提供可靠的開發除錯協助。
 
-## Learning Objectives
+## 提供貢獻
 
-This project demonstrates:
+這也是一個實驗與教育性質的開源專案。歡迎 Fork 擴充並嘗試以下方向：
 
-- React Native gesture handling
-- Animation libraries integration
-- State management with React hooks
-- Cross-platform development with Expo
-- Modern React Native development patterns
-- TypeScript usage in React Native
-
-## Contributing
-
-This is an educational project. Feel free to fork and experiment with:
-
-- Adding more card data
-- Implementing different animation effects
-- Adding sound effects
-- Creating custom card designs
-- Adding user profiles and matching logic
+- 新增更多的照片 Metadata 資訊卡展示（例如：檔案大小、解析度座標紀錄）。
+- 實作更多種趣味的動畫過場特效。
+- 為 Keep 或 Delete 加入視覺外的震動觸覺或音效反饋。
+- 改善 UI 將控制欄加入更多標籤分類情境。
